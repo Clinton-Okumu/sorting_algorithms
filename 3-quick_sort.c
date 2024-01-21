@@ -1,6 +1,6 @@
 #include "sort.h"
 /**
- * swap - swaps two elements in an array
+ * swapping - swaps two elements in an array
  * @a: pointer to the first element
  * @b: pointer to the second element
  */
@@ -15,11 +15,11 @@ int tmp = *a;
 }
 
 /**
- * array_partition - Lomuto partition scheme for quicksort
- * @array: array to be sorted
+ * array_partition - partition scheme for quicksort
+ * @arr: array to be sorted
  * @start: starting index of the partition
  * @end: ending index of the partition
- * @size: size of the array
+ * @array_size: size of the array
  *
  * Return: index of the pivot element
  */
