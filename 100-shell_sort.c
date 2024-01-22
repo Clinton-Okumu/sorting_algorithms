@@ -7,11 +7,10 @@
  */
 void swapping(int *array, __ssize_t item, __ssize_t item1)
 {
-int tmp;
-
-tmp =  array[item];
-array[item] = array[item1];
-array[item1] = tmp;
+    int tmp;
+    tmp =  array[item];
+    array[item] = array[item1];
+    array[item1] = tmp;
 }
 /**
  * shell_sort - function that sorts an array of integers in ascending
