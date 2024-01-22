@@ -4,18 +4,13 @@
  * @a: pointer to the first element
  * @b: pointer to the second element
  */
-void swapping(int *a, int *b)
+void swapping(int *array, __ssize_t item, __ssize_t item1)
 {
-if (a != b)
-{
-<<<<<<< HEAD
-int tmp = *a;	
-=======
-int tmp = *a;
->>>>>>> 451d1b37711e6053ba4a86d9b44c1a0540feeb7d
-*a = *b;
-*b = tmp;
-}
+int tmp;
+
+tmp =  array[item];
+array[item] = array[item1];
+array[item1] = tmp;
 }
 
 /**
@@ -27,27 +22,30 @@ int tmp = *a;
  *
  * Return: index of the pivot element
  */
-size_t array_partition(int *arr, int start, int end, size_t array_size)
+__ssize_t array_partition(int *arr, __ssize_t start, __ssize_t end, size_t array_size)
 {
 int pivot = arr[end];
-int i = start - 1;
-int j;
+__ssize_t current = start, j;
 
-for (j = start; j <= end - 1; j++)
+for (j = start; j <= end; j++)
 {
 if (arr[j] < pivot)
 {
-i++;
-swapping(&arr[i], &arr[j]);
+if (arr[current] != arr[j])
+{
+swapping(arr, current, j);
 print_array(arr, array_size);
 }
+current++;
 }
-swapping(&arr[i + 1], &arr[end]);
-print_array(arr, array_size);
-
-return (i + 1);
 }
-
+if (arr[current] != arr[end])
+{
+    swapping(arr, current, end);
+    print_array(arr, array_size);
+}
+return (current);
+}
 /**
  * recursive_quick - recursive function for quicksort
  * @array: array to be sorted
