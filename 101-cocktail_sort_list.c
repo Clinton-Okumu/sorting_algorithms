@@ -1,66 +1,73 @@
 #include "sort.h"
-#include <stdio.h>
-/**
- *swap_node - swap a node for his previous one
- *@node: node
- *@list: node list
- *Return: return a pointer to a node which was enter it
- */
-listint_t *swap_node(listint_t *node, listint_t **list)
-{
-	listint_t *end = node->prev, *i = node;
 
-	end->next = i->next;
-	if (i->next)
-		i->next->prev = end;
-	i->next = end;
-	i->prev = end->prev;
-	end->prev = i;
-	if (i->prev)
-		i->prev->next = i;
-	else
-		*list = i;
-	return (i);
-}
 /**
- *cocktail_sort_list - this is a cocktail sort implementation
- *working on a double linked lists
- *@list: list
+ * dll_adj_swap - swaps two adjacent nodes of a doubly linked list
+ * @list: doubly linked list of integers to be sorted
+ * @left: node closer to head, right->prev
+ * @right: node closer to tail, left->next
+ */
+void swap(listint_t **list, listint_t *left, listint_t *right)
+{
+	listint_t *swap;
+
+	if (left->prev)
+		left->prev->next = right;
+	else
+		*list = right;
+	if (right->next)
+		right->next->prev = left;
+	right->prev = left->prev;
+	left->prev = right;
+	swap = right;
+	left->next = right->next;
+	swap->next = left;
+
+	print_list(*list);
+}
+
+/**
+ * cocktail_sort_list - sorts a doubly linked list of integers in ascending
+ * order using an cocktail shaker sort algorithm
+ * @list: doubly linked list of integers to be sorted
  */
 void cocktail_sort_list(listint_t **list)
 {
-	listint_t *node;
-	int swapElements = 1;
+	bool swapped_f, swapped_b;
+	int shake_range = 1000000, checks;
+	listint_t *temp;
 
-	if (list == '\0' || (*list) == '\0' || (*list)->next == '\0')
+	if (!list || !(*list) || !(*list)->next)
 		return;
-	node = *list;
-	while (swapElements == 1)
-	{
-		swapElements = 0;
-		while (node->next)
+
+	temp = *list;
+	do {
+		swapped_f = swapped_b = false;
+		for (checks = 0; temp->next && checks < shake_range; checks++)
 		{
-			if (node->n > node->next->n)
+			if (temp->next->n < temp->n)
 			{
-				node = swap_node(node->next, list);
-				swapElements = 1;
-				print_list(*list);
-			}
-			node = node->next;
-		}
-		if (swapElements == 0)
-			break;
-		swapElements = 0;
-		while (node->prev)
-		{
-			if (node->n < node->prev->n)
-			{
-				node = swap_node(node, list);
-				swapElements = 1;
-				print_list(*list);
+				swap(list, temp, temp->next);
+				swapped_f = true;
 			}
 			else
-				node = node->prev;
+				temp = temp->next;
 		}
-	}
+		if (!temp->next)
+			shake_range = checks;
+		if (swapped_f)
+			temp = temp->prev;
+		shake_range--;
+		for (checks = 0; temp->prev && checks < shake_range; checks++)
+		{
+			if (temp->n < temp->prev->n)
+			{
+				swap(list, temp->prev, temp);
+				swapped_b = true;
+			}
+			else
+				temp = temp->prev;
+		}
+		if (swapped_b)
+			temp = temp->next;
+	} while (swapped_f || swapped_b);
 }
