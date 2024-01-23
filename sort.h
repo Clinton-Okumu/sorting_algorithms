@@ -33,5 +33,11 @@ void swap(listint_t **list, listint_t *left, listint_t *right);
 void cocktail_sort_list(listint_t **list);
 void counting_sort(int *array, size_t size);
 void *_calloc(unsigned int nmemb, unsigned int size);
+void PrintArray(int *arr, int first, int end);
+void CopyArray(int *source, int first, int end, int *station);
+void TopDownMerge(int *source, int first, int center, int end, int *station);
+void TopDownSplitMerge(int *source, int first, int end, int *station);
+void merge_sort(int *array, size_t size);
+
 
 #endif
